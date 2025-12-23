@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="nb">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prosjekter — Allianse Montasje AS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-row">
+        <a class="brand" href="index.html">
+          <img src="images/Allianse Montasje (1).JPG" alt="Allianse Montasje AS logo" class="brand-logo">
+          <span class="brand-text">
+            ALLIANSE
+            <span class="brand-sub">Montasje AS</span>
+          </span>
+        </a>
+        <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-label="Åpne meny">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="site-nav" id="siteNav" aria-label="Hovednavigasjon">
+          <a href="index.html#tjenester">Våre tjenester</a>
+          <a href="prosjekter.html">Prosjekter</a>
+          <a href="index.html#om">Om oss</a>
+          <a href="ansatte.html">Våre ansatte</a>
+          <a href="index.html#kontakt">Kontakt</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="projects" style="padding-top: 120px;">
+        <div class="container">
+        <h1>Prosjekter</h1>
+        <h12>Trykk på bildene for å lese om prosjektet</h2>
+        <div class="gallery">
+          <figure class="lightbox-item" tabindex="0" data-title="Nettstasjon — montasje"><img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80" alt="Nettstasjon"/><figcaption>Nettstasjon — montasje</figcaption><p class="project-description">Write here</p></figure>
+          <figure class="lightbox-item" tabindex="0" data-title="Jernbanevedlikehold"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80" alt="Jernbanearbeid"/><figcaption>Jernbanevedlikehold</figcaption><p class="project-description">Write here</p></figure>
+          <figure class="lightbox-item" tabindex="0" data-title="Prosjektmontasje"><img src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=80" alt="Montasje"/><figcaption>Prosjektmontasje</figcaption><p class="project-description">Write here</p></figure>
+          <figure class="lightbox-item" tabindex="0" data-title="Linje- og terrengarbeid"><img src="https://picsum.photos/800/600?random=77" alt="Linjearbeid"/><figcaption>Linje- og terrengarbeid</figcaption><p class="project-description">Write here</p></figure>
+        </div>
+        <p class="more"><a href="index.html#kontakt" class="btn primary">Kontakt for referanser</a></p>
+        </div>
+      </section>
+    </main>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Prosjektbilde" hidden>
+      <div class="lightbox__backdrop" data-lightbox-close></div>
+      <div class="lightbox__content" role="document">
+        <button class="lightbox__close" type="button" aria-label="Lukk" data-lightbox-close>×</button>
+        <img class="lightbox__img" src="" alt="" />
+        <p class="lightbox__caption"></p>
+        <p class="lightbox__description"></p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>© <span id="year"></span> Allianse Montasje AS</div>
+        <nav class="footer-nav">
+          <a href="#">Personvern</a>
+          <a href="#">Sikkerhet</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
