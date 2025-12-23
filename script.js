@@ -23,47 +23,68 @@ document.addEventListener('DOMContentLoaded',function(){
     });
   }
   
-  // Header show/hide on scroll, reveal on hover or mouse near top
+  // Header show/hide on scroll
   const header = document.querySelector('.site-header');
-  let lastY = window.scrollY || 0;
-  let ticking = false;
+  let lastScrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+  const delta = 2; // minimal movement threshold to avoid jitter
 
-  function showHeader(){
-    if(header) header.classList.remove('header-hidden');
+  // Set initial state based on current scroll position
+  if(header && lastScrollTop > 10){
+    header.classList.add('header-hidden');
+    document.body.classList.add('header-hidden-active');
   }
-  function hideHeader(){
-    if(header) header.classList.add('header-hidden');
+
+  // --- Debug helpers ---
+  function logHeaderState(label){
+    if(!header) return;
+    try{
+      const cs = getComputedStyle(header);
+      console.log('[Header]', label, {
+        classHidden: header.classList.contains('header-hidden'),
+        opacity: cs.opacity,
+        transform: cs.transform,
+        scrollY: window.scrollY || document.documentElement.scrollTop || 0
+      });
+    }catch(e){/* noop */}
   }
+  logHeaderState('init');
+  window.headerDebug = {
+    hide: ()=>{ header?.classList.add('header-hidden'); document.body.classList.add('header-hidden-active'); logHeaderState('manual hide'); },
+    show: ()=>{ header?.classList.remove('header-hidden'); document.body.classList.remove('header-hidden-active'); logHeaderState('manual show'); },
+    toggle: ()=>{ header?.classList.toggle('header-hidden'); document.body.classList.toggle('header-hidden-active'); logHeaderState('manual toggle'); },
+    log: ()=> logHeaderState('log')
+  };
 
   window.addEventListener('scroll', function(){
-    if(!ticking){
-      window.requestAnimationFrame(function(){
-        const y = window.scrollY || 0;
-        if(y > lastY + 10){
-          hideHeader();
-        } else if(y < lastY - 10){
-          showHeader();
-        }
-        lastY = y;
-        ticking = false;
-      });
-      ticking = true;
+    if(!header) return;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+
+    // Ignore tiny scroll jitter
+    if(Math.abs(scrollTop - lastScrollTop) <= delta) return;
+
+    if(scrollTop > lastScrollTop && scrollTop > 10){
+      // scrolling DOWN and past 10px
+      header.classList.add('header-hidden');
+      document.body.classList.add('header-hidden-active');
+      logHeaderState('scroll down');
+    } else if(scrollTop < lastScrollTop){
+      // scrolling UP
+      header.classList.remove('header-hidden');
+      document.body.classList.remove('header-hidden-active');
+      logHeaderState('scroll up');
     }
+
+    lastScrollTop = scrollTop;
   }, {passive: true});
 
-  // reveal header when mouse enters top area
+  // Show header when mouse moves near the top
   document.addEventListener('mousemove', function(e){
-    if(e.clientY < 80) showHeader();
+    if(e.clientY < 80 && header?.classList.contains('header-hidden')){
+      header.classList.remove('header-hidden');
+      document.body.classList.remove('header-hidden-active');
+      logHeaderState('mousemove near top');
+    }
   });
-
-  // ensure header is visible when hovering over it
-  if(header){
-    header.addEventListener('mouseenter', showHeader);
-    header.addEventListener('mouseleave', function(){
-      // if user has scrolled down, hide after leaving header
-      if(window.scrollY > 80) hideHeader();
-    });
-  }
 
   // close mobile nav when clicking a link
   document.querySelectorAll('.site-nav a').forEach(function(a){
